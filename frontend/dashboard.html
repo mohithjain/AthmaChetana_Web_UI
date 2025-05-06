@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+   
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+        <div class="left-section">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo" class="logo-img"> 
+                Atma Chetana
+            </div>
+        </div>
+        <nav class="menu">
+            <a href="#" class="active" data-section="dashboard">Dashboard</a>
+            <a href="#" data-section="pending">Pending Appointments</a>
+            <a href="#" data-section="students">Student Record</a>
+        </nav>
+        <select id="deptDropdown">
+            <option value="">Select Department</option>
+        </select>
+        <div class="right-section">
+            <!-- Google Sheet icon updated to specific spreadsheet -->
+            <a href="https://docs.google.com/spreadsheets/d/1TiQaayBPix6Za3Z0BpLM8S-CLrH07K-7ZOgciMyaLyA/edit?authuser=mohithjain.cs22@bmsce.ac.in" target="_blank" class="gsheet-icon">
+                <img src="images/gsheet.jpg" alt="Google Sheet" class="gsheet-img">
+            </a>
+            <!-- Gmail link for manvi.cs22@bmsce.ac.in -->
+            <a href="https://mail.google.com/mail/u/0/#inbox?authuser=manvi.cs22@bmsce.ac.in" target="_blank" class="gmail-icon">
+                <img src="images/gmail.png" alt="Gmail" class="gmail-img">
+            </a>
+            <div class="avatar" id="profileAvatar">S</div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-header">
+                    <div class="profile-avatar">S</div>
+                    <div class="profile-info">
+                        <div class="profile-name">Ms. Sneha H</div>
+                        <div class="profile-role">Counsellor</div>
+                    </div>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="forgotpswrd.html" class="dropdown-item">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                    <a href="#" class="dropdown-item" id="signOutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sign Out Confirmation Modal -->
+        <div class="modal-overlay" id="signoutModal" style="display:none;">
+            <div class="confirmation-modal">
+                <h3>Sign Out Confirmation</h3>
+                <p>Are you sure you want to sign out?</p>
+                <div class="modal-actions">
+                    <button class="cancel-btn" id="cancelSignout">Not Now</button>
+                    <button class="confirm-btn" id="confirmSignout">Yes, Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar (Dashboard Stats) -->
+        <div class="sidebar">
+            <div class="stat-box">
+                <h2 id="studentCount">0</h2>
+                <p>No. of Students</p>
+            </div>
+            <div class="stat-box">
+                <h2 id="sessionCount">0</h2>
+                <p>Sessions</p>
+            </div>
+            <div class="stat-box">
+                <h2 id="pendingSessionCount">0</h2>
+                <p>Pending sessions</p>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div id="dashboardContent" class="content-section">
+            <h2>Scheduled Appointments</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Department</th>
+                            <th>Usn</th>
+                            <th>Semester</th>
+                            <th>Appointment Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>Physics Department</td>
+                            <td>1BM22PH115</td>
+                            <td>3rd</td>
+                            <td>2025-04-05</td>
+                            <td>12:00</td>
+                            <td>feeling lost</td>
+                            <td><input type="checkbox" class="complete-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>Physics Department</td>
+                            <td>1BM22PH120</td>
+                            <td>2nd</td>
+                            <td>2025-04-07</td>
+                            <td>05:00</td>
+                            <td>scared</td>
+                            <td><input type="checkbox" class="complete-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Aman</td>
+                            <td>Computer Science and Engineering</td>
+                            <td>1BM22CS151</td>
+                            <td>3rd</td>
+                            <td>2025-04-05</td>
+                            <td>05:00</td>
+                            <td>feeling lost</td>
+                            <td><input type="checkbox" class="complete-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Kumud</td>
+                            <td>Information Science and Engineering</td>
+                            <td>1BM22IS002</td>
+                            <td>2nd</td>
+                            <td>2025-04-07</td>
+                            <td>05:30</td>
+                            <td>scared</td>
+                            <td><input type="checkbox" class="complete-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Akash</td>
+                            <td>Computer Science and Engineering</td>
+                            <td>1BM22CS149</td>
+                            <td>3rd</td>
+                            <td>2025-04-05</td>
+                            <td>06:00</td>
+                            <td>feeling lost</td>
+                            <td><input type="checkbox" class="complete-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Anjali</td>
+                            <td>Information Science and Engineering</td>
+                            <td>1BM22IS001</td>
+                            <td>2nd</td>
+                            <td>2025-04-07</td>
+                            <td>05:00</td>
+                            <td>scared</td>
+                            <td><input type="checkbox" class="complete-checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="pendingContent" class="content-section" style="display:none;">
+            <h2>Pending Appointments</h2>
+            <div class="table-container">
+                <table class="pending-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Department</th>
+                            <th>Usn</th>
+                            <th>Semester</th>
+                            <th>Reason</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mohith Jain</td>
+                            <td>Computer Science and Engineering</td>
+                            <td>1BM22CS162</td>
+                            <td>6th</td>
+                            <td>Anxiety about upcoming exams</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Rahul Sharma</td>
+                            <td>Aerospace Engineering</td>
+                            <td>1BM22CS001</td>
+                            <td>3rd</td>
+                            <td>Anxiety about upcoming exams</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Priya Patel</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Arjun Kumar</td>
+                            <td>Aerospace Engineering</td>
+                            <td>1BM22CS003</td>
+                            <td>5th sem</td>
+                            <td>Stress management issues</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Aryan Singh</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS004</td>
+                            <td>7th sem</td>
+                            <td>Stress management issues</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ramkishan Kumar</td>
+                            <td>Bio-Technology</td>
+                            <td>1BM22CS005</td>
+                            <td>7th sem</td>
+                            <td>anger issues</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Priya Patel</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>kajal chaudary</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>suman</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Raghav Patel</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Abhinav Mishra</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>kajal</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Shweta</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Manvi Sharma</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pooja</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Darsh roy</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dhruv Singh</td>
+                            <td>Physics Department</td>
+                            <td>1BM22CS002</td>
+                            <td>2nd sem</td>
+                            <td>Difficulty adjusting to college life</td>
+                            <td class="action-buttons">
+                                <button class="confirm-btn">Confirm</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="studentsContent" class="content-section" style="display:none;">
+            <h2>Student Records</h2>
+            
+            <!-- Search and Filter Controls -->
+            <div class="student-search-controls">
+                <div class="filter-group">
+                    <label for="studentDeptFilter">Department:</label>
+                    <select id="studentDeptFilter">
+                        <option value="">All Departments</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="studentSemFilter">Semester:</label>
+                    <select id="studentSemFilter" disabled>
+                        <option value="">Select Department First</option>
+                    </select>
+                </div>
+                
+                <div class="search-group">
+                    <label for="studentNameSearch">Search by Name:</label>
+                    <input type="text" id="studentNameSearch" placeholder="Enter student name...">
+                </div>
+            </div>
+            
+            <!-- Student Cards Container -->
+            <div class="student-cards-container">
+                <div class="student-card" data-student='{
+                    "name": "Mohith Jain",
+                    "usn": "1BM22CS162",
+                    "dept": "Computer Science and Engineering",
+                    "sem": "6th Sem",
+                    "sessions": [
+                       
+                    ],
+                    "soulScore": 75,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">M</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Mohith Jain</h3>
+                        <p class="student-dept">Computer Science and Engineering</p>
+                        <p class="student-sem">6th Sem</p>
+                    </div>
+                </div>
+                <div class="student-card" data-student='{
+                    "name": "Manvi Sharma",
+                    "usn": "1BM22CS149",
+                    "dept": "Computer Science and Engineering",
+                    "sem": "6th Sem",
+                    "sessions": [
+                       
+                    ],
+                    "soulScore": 55,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">M</div>
+                    <div class="student-details">
+                        <h3 class="student-name">manvi Sharma</h3>
+                        <p class="student-dept">Computer Science and Engineering</p>
+                        <p class="student-sem">6th Sem</p>
+                    </div>
+                </div>
+                <div class="student-card" data-student='{
+                    "name": "Aman",
+                    "usn": "1BM22CS167",
+                    "dept": "Aerospace Engineering",
+                    "sem": "8th Sem",
+                    "sessions": [
+                    {"date": "2025-04-10", "reason": "Anxiety about exams"},
+                    {"date": "2025-03-15", "reason": "Time management issues"}
+                    ],
+                    "soulScore": 75,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">A</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Aman</h3>
+                        <p class="student-dept">Aerospace Engineering</p>
+                        <p class="student-sem">8th Sem</p>
+                    </div>
+                </div>
+                <div class="student-card" data-student='{
+                    "name": "Rahul Sharma",
+                    "usn": "1BM22PH001",
+                    "dept": "Physics Department",
+                    "sem": "3rd Sem",
+                    "sessions": [
+                        {"date": "2025-04-10", "reason": "Anxiety about exams"},
+                        {"date": "2025-03-15", "reason": "Time management issues"}
+                    ],
+                    "soulScore": 75,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">R</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Rahul Sharma</h3>
+                        <p class="student-dept">Physics Department</p>
+                        <p class="student-sem">3rd Sem</p>
+                    </div>
+                </div>
+                
+                <div class="student-card" data-student='{
+                    "name": "Priya Patel",
+                    "usn": "1BM22CS002",
+                    "dept": "Bio-Technology",
+                    "sem": "2nd Sem",
+                    "sessions": [
+                        {"date": "2025-04-05", "reason": "Adjustment issues"},
+                        {"date": "2025-02-20", "reason": "Career guidance"}
+                    ],
+                    "soulScore": 82,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">P</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Priya Patel</h3>
+                        <p class="student-dept">Bio-Technology</p>
+                        <p class="student-sem">2nd Sem</p>
+                    </div>
+                </div>
+        
+                <div class="student-card" data-student='{
+                    "name": "Raj Patel",
+                    "usn": "1BM22CS003",
+                    "dept": "Chemical Engineering",
+                    "sem": "1st Sem",
+                    "sessions": [
+                        {"date": "2025-04-05", "reason": "Adjustment issues"},
+                        {"date": "2025-02-20", "reason": "Career guidance"},
+                        {"date": "2025-04-05", "reason": "Adjustment issues"}
+                    ],
+                    "soulScore": 68,
+                    "remarks": ""
+                }'>
+                <div class="student-avatar">R</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Raj Patel</h3>
+                        <p class="student-dept">Chemical Engineering</p>
+                        <p class="student-sem">1st Sem</p>
+                    </div>
+                </div>
+
+                <div class="student-card" data-student='{
+                    "name": "Abhey chaudary",
+                    "usn": "1BM22CS003",
+                    "dept": "Civil Engineering",
+                    "sem": "1st Sem",
+                    "sessions": [
+                        {"date": "2025-04-05", "reason": "Adjustment issues"},
+                        {"date": "2025-02-20", "reason": "Career guidance"},
+                        {"date": "2025-04-05", "reason": "Adjustment issues"}
+                    ],
+                    "soulScore": 68,
+                    "remarks": ""
+                }'>
+                <div class="student-avatar">A</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Abhey chaudary</h3>
+                        <p class="student-dept">Civil Engineering</p>
+                        <p class="student-sem">1st Sem</p>
+                    </div>
+                </div>
+        
+                <div class="student-card" data-student='{
+                    "name": "Raman Singh",
+                    "usn": "1BM22CS004",
+                    "dept": "Electrical and Electronics Engineering",
+                    "sem": "7th Sem",
+                    "sessions": [
+                        {"date": "2025-04-05", "reason": "Adjustment issues"},
+                        {"date": "2025-02-20", "reason": "Career guidance"},
+                        {"date": "2025-02-20", "reason": "Career guidance"}
+                    ],
+                    "soulScore": 90,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">R</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Raman Singh</h3>
+                        <p class="student-dept">Electrical and Electronics Engineering</p>
+                        <p class="student-sem">7th Sem</p>
+                    </div>
+                </div>
+                <div class="student-card" data-student='{
+                    "name": "Rishab Abrol",
+                    "usn": "1BM22CS004",
+                    "dept": "Electrical and Electronics Engineering",
+                    "sem": "7th Sem",
+                    "sessions": [
+                        {"date": "2025-04-05", "reason": "Adjustment issues"},
+                        {"date": "2025-02-20", "reason": "Career guidance"},
+                        {"date": "2025-02-20", "reason": "Career guidance"}
+                    ],
+                    "soulScore": 90,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">R</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Rishab Abrol</h3>
+                        <p class="student-dept">Electrical and Electronics Engineering</p>
+                        <p class="student-sem">7th Sem</p>
+                    </div>
+                </div>
+                <div class="student-card" data-student='{
+                    "name": "Reetu",
+                    "usn": "1BM22CS004",
+                    "dept": "Medical Electronics Engineering",
+                    "sem": "7th Sem",
+                    "sessions": [
+                        {"date": "2025-04-05", "reason": "Adjustment issues"},
+                        {"date": "2025-02-20", "reason": "Career guidance"},
+                        {"date": "2025-02-20", "reason": "Career guidance"}
+                    ],
+                    "soulScore": 90,
+                    "remarks": ""
+                }'>
+                    <div class="student-avatar">R</div>
+                    <div class="student-details">
+                        <h3 class="student-name">Reetu</h3>
+                        <p class="student-dept">Medical Electronics Engineering</p>
+                        <p class="student-sem">7th Sem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Student Profile Modal -->
+        <div class="profile-modal-overlay" id="profileModal" style="display:none;">
+            <div class="profile-modal compact-modal">
+                <div class="profile-modal-header">
+                    <div class="profile-modal-avatar" id="modalAvatar">R</div>
+                    <div class="profile-modal-name" id="modalName">Rahul Sharma</div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="profile-modal-section">
+                    <div class="profile-modal-info">
+                        <div class="profile-modal-label">USN:</div>
+                        <div class="profile-modal-value" id="modalUsn">1BM22CS001</div>
+                    </div>
+                    <div class="profile-modal-info">
+                        <div class="profile-modal-label">Soul Score:</div>
+                        <div class="profile-modal-value" id="modalSoulScore">75</div>
+                    </div>
+                    <div class="profile-modal-info">
+                        <div class="profile-modal-label">Department:</div>
+                        <div class="profile-modal-value" id="modalDept">Physics Department</div>
+                    </div>
+                    <div class="profile-modal-info">
+                        <div class="profile-modal-label">Semester:</div>
+                        <div class="profile-modal-value" id="modalSem">3rd Sem</div>
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="profile-modal-section">
+                    <h3>Session History</h3>
+                    <div class="profile-modal-sessions" id="modalSessions">
+                        <!-- Sessions will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="profile-modal-section">
+                    <h3>Remarks</h3>
+                    <div class="profile-modal-remarks">
+                        <textarea id="modalRemarks" rows="4" placeholder="Enter remarks here..."></textarea>
+                        <div class="remark-actions">
+                            <span class="remark-delete" id="deleteRemark">×</span>
+                            <span class="remark-save" id="saveRemark">✓</span>
+                        </div>
+                    </div>
+                    <div class="remark-notification" id="remarkNotification" style="display:none;">Saved successfully</div>
+                </div>
+                
+                <div class="profile-modal-close">
+                    <button class="close-profile-btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
